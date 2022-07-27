@@ -10,7 +10,7 @@ public class DeViceReserveDate {
     private DeviceReservedDateKey id;
 
     @ManyToOne
-    //@MapsId("deviceId")
+    @MapsId("deviceId")
     private Device device;
 
     public DeViceReserveDate() {}
