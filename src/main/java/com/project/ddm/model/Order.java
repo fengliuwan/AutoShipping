@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "order")
 @JsonDeserialize(builder = Order.Builder.class)
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
