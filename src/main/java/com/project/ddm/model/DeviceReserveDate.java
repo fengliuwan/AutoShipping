@@ -1,11 +1,10 @@
 package com.project.ddm.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "device_reserved_date")
-public class DeViceReserveDate {
+public class DeviceReserveDate {
     @EmbeddedId
     private DeviceReservedDateKey id;
 
@@ -13,9 +12,9 @@ public class DeViceReserveDate {
     @MapsId("deviceId")
     private Device device;
 
-    public DeViceReserveDate() {}
+    public DeviceReserveDate() {}
 
-    public DeViceReserveDate(DeviceReservedDateKey id, Device device) {
+    public DeviceReserveDate(DeviceReservedDateKey id, Device device) {
         this.id = id;
         this.device = device;
     }
