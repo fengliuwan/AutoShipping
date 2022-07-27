@@ -17,5 +17,5 @@ public interface DeviceReserveDateRepository extends JpaRepository<DeviceReserve
     @Query(value = "SELECT srd.id.deviceId FROM DeviceReserveDate srd WHERE srd.id.deviceId IN ?1 AND srd.id.date BETWEEN ?2 AND ?3 GROUP BY srd.id.deviceId")
     Set<Long> findByIdInAndDateBetween(List<Long> deviceIds, LocalDate startDate, LocalDate endDate);
 
-    List<DeviceReserveDate> findByDevice(Device device);
+
 }
