@@ -5,12 +5,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @JsonDeserialize(builder = Order.Builder.class)
-public class Order implements Serializable{
+public class Order implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
