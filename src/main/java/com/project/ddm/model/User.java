@@ -24,7 +24,9 @@ public class User implements Serializable {
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    private List<Long> OrderId;
+    private List<Order> orders;
+
+
 
     public User() {}
     private User(Builder builder) {
@@ -65,8 +67,8 @@ public class User implements Serializable {
         @JsonProperty("password")
         private String password;
 
-        @JsonProperty("OrderId")
-        private List<Long> OrderId;
+        @JsonProperty("orders")
+        private List<Order> orders;
 
         public Builder setUserId(String userId) {
             this.userId = userId;
@@ -83,8 +85,8 @@ public class User implements Serializable {
             return this;
         }
 
-        public Builder setOrderId(List<Long> OrderId) {
-            this.OrderId = OrderId;
+        public Builder setOrderId(List<Order> orders) {
+            this.orders = orders;
             return this;
         }
 
