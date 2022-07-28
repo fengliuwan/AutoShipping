@@ -19,15 +19,14 @@ public class Device implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long deviceId;
+    private Long id;
     private double deliverDistance;
 
     @ManyToOne
-    @JoinColumn(name = "station_Id")
+    @JoinColumn(name = "station_id")
     private Station station;
 
-    @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    private List<DeviceReserveDate> deviceReverseDates;
+
 
     @OneToOne
     private Order order;
@@ -35,17 +34,17 @@ public class Device implements Serializable {
     public  Device(){}
 
     private Device(Builder builder){
-        this.deviceId = builder.deviceId;
+        this.id = builder.id;
         this.deliverDistance = builder.deliverDistance;
         this.station = builder.station;
     }
 
-    public Long getDeviceId() {
-        return deviceId;
+    public Long getId() {
+        return id;
     }
 
-    public void setDeviceId(Long deviceId) {
-        this.deviceId = deviceId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public double getDeliverDistance() {
@@ -64,14 +63,6 @@ public class Device implements Serializable {
         this.station = station;
     }
 
-    public List<DeviceReserveDate> getDeviceReverseDates() {
-        return deviceReverseDates;
-    }
-
-    public void setDeviceReverseDates(List<DeviceReserveDate> deviceReverseDates) {
-        this.deviceReverseDates = deviceReverseDates;
-    }
-
     public Order getOrders() {
         return order;
     }
@@ -81,8 +72,8 @@ public class Device implements Serializable {
     }
 
     public static class Builder{
-        @JsonProperty("device_id")
-        private Long deviceId;
+        @JsonProperty("id")
+        private Long id;
 
         @JsonProperty("deliverDistance")
         private double deliverDistance;
@@ -96,8 +87,8 @@ public class Device implements Serializable {
         @JsonProperty
         private Order order;
 
-        public Builder setDeviceId(Long deviceId){
-            this.deviceId = deviceId;;
+        public Builder setDeviceId(Long id){
+            this.id = id;;
             return this;
         }
 
