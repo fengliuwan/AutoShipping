@@ -11,7 +11,7 @@ public class Station implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int stationId;
+    private long stationId;
 
     private double longitude;
     private double latitude;
@@ -19,7 +19,7 @@ public class Station implements Serializable {
     @OneToMany (mappedBy = "station", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Device> devices;
 
-    public int getStationId() {
+    public long getStationId() {
         return stationId;
     }
 
