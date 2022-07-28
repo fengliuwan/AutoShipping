@@ -23,7 +23,7 @@ public class Device implements Serializable {
     private double deliverDistance;
 
     @ManyToOne
-    @JoinColumn(name = "station_Id")
+    @JoinColumn(name = "station_id")
     private Station station;
 
     @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
