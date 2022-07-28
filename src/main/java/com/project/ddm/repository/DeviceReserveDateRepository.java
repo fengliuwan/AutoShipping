@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Repository
 public interface DeviceReserveDateRepository extends JpaRepository<DeviceReserveDate, DeviceReservedDateKey> {
-    @Query(value = "SELECT srd.id.deviceId FROM DeviceReserveDate srd WHERE srd.id.deviceId IN ?1 AND srd.id.date BETWEEN ?2 AND ?3 GROUP BY srd.id.deviceId")
+    @Query(value = "SELECT srd.id.device_id FROM DeviceReserveDate srd WHERE srd.id.device_id IN ?1 AND srd.id.date BETWEEN ?2 AND ?3 GROUP BY srd.id.device_id")
     Set<Long> findByIdInAndDateBetween(List<Long> deviceIds, LocalDate startDate, LocalDate endDate);
 
 

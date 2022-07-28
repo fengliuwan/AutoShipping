@@ -26,6 +26,10 @@ public class Order implements Serializable {
 
     private String receivingAddress;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Order() {}
 
     private Order(Builder builder) {
@@ -35,6 +39,7 @@ public class Order implements Serializable {
         this.price = builder.price;
         this.sendingAddress = builder.sendingAddress;
         this.receivingAddress = builder.receivingAddress;
+        this.user = builder.user;
     }
 
     public Long getOrderId() {
@@ -81,6 +86,9 @@ public class Order implements Serializable {
         @JsonProperty("receiving_address")
         private String receivingAddress;
 
+        @JsonProperty
+        private User user;
+
         public Builder setOrderId(Long orderId) {
             this.orderId = orderId;
             return this;
@@ -108,6 +116,11 @@ public class Order implements Serializable {
 
         public Builder setReceivingAddress(String receivingAddress) {
             this.receivingAddress = receivingAddress;
+            return this;
+        }
+
+        public Builder setUser(User user){
+            this.user = user;
             return this;
         }
 
