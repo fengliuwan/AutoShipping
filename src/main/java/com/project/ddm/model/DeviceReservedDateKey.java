@@ -1,5 +1,6 @@
 package com.project.ddm.model;
 
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -8,22 +9,22 @@ import java.util.Objects;
 public class DeviceReservedDateKey implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long deviceId;
+    private Long device_id;
     private LocalDate date;
 
     public DeviceReservedDateKey() {}
 
-    public DeviceReservedDateKey(Long stay_id, LocalDate date) {
-        this.deviceId = deviceId;
+    public DeviceReservedDateKey(Long device_id, LocalDate date) {
+        this.device_id = device_id;
         this.date = date;
     }
 
-    public Long getDeviceId() {
-        return deviceId;
+    public Long getDevice_id() {
+        return device_id;
     }
 
-    public DeviceReservedDateKey setStay_id(Long deviceId) {
-        this.deviceId = deviceId;
+    public DeviceReservedDateKey setDevice_id(Long deviceId) {
+        this.device_id = device_id;
         return this;
     }
 
@@ -41,11 +42,11 @@ public class DeviceReservedDateKey implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DeviceReservedDateKey that = (DeviceReservedDateKey) o;
-        return deviceId.equals(that.deviceId) && date.equals(that.date);
+        return device_id.equals(that.device_id) && date.equals(that.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(deviceId, date);
+        return Objects.hash(device_id, date);
     }
 }
