@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface StationRepository extends JpaRepository<Station, Integer> {
     List<Station> findAll();
+
+    // need to find station by station id
+    Station findStationById(int stationId);
 }

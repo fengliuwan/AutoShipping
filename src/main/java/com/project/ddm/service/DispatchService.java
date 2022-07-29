@@ -1,20 +1,29 @@
 package com.project.ddm.service;
 
+import com.project.ddm.model.Device;
+import com.project.ddm.model.DeviceType;
 import com.project.ddm.model.Station;
+import com.project.ddm.repository.DeviceReserveDateRepository;
 import com.project.ddm.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class DispatchService {
 
     private StationRepository stationRepository;
+    private DeviceReserveDateRepository deviceReserveDateRepository;
 
     @Autowired
-    public DispatchService(StationRepository stationRepository) {
+    public DispatchService(StationRepository stationRepository,
+                           DeviceReserveDateRepository deviceReserveDateRepository) {
         this.stationRepository = stationRepository;
+        this.deviceReserveDateRepository = deviceReserveDateRepository;
     }
 
     /**
@@ -50,5 +59,31 @@ public class DispatchService {
      */
     private double getDistance(double lon, double lat, double stationLon, double stationLat) {
         return Math.abs(lon - stationLon) + Math.abs(lat - stationLat);
+    }
+
+    public List<Long> getAvailableDeviceIdsAtStation (int stationId, DeviceType type) {
+        Station station = stationRepository.findStationById(stationId);
+        List<Device> devices = new ArrayList<>();
+
+        // get device that matches type
+        for (Device device : station.getDevices()) {
+            if (device.getDeviceType() == type) {
+                devices.add(device);
+            }
+        }
+        List<Long> deviceIds = new ArrayList<>();
+        for (Device device : devices) {
+            deviceIds.add(device.getDeviceId());
+        }
+
+        Set<Long> reservedDeviceIds = deviceReserveDateRepository.findByIdAndDateBefore(deviceIds, LocalDate.now());
+
+        List<Long> filteredDeviceIds = new ArrayList<>();
+        for (Long id : deviceIds) {
+            if (!reservedDeviceIds.contains(id)) {
+                filteredDeviceIds.add(id);
+            }
+        }
+        return filteredDeviceIds;
     }
 }

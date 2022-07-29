@@ -1,11 +1,10 @@
-package com.project.ddm.model;
 
+package com.project.ddm.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-
 @Entity
 @Table(name = "station")
 public class Station implements Serializable {
@@ -33,7 +32,7 @@ public class Station implements Serializable {
         return latitude;
     }
 
-    public List<Device> getDeviceIds() {
+    public List<Device> getDevices() {
         return devices;
     }
 
@@ -49,7 +48,7 @@ public class Station implements Serializable {
         this.latitude = latitude;
     }
 
-    public void setDeviceIds(List<Device> devices) {
+    public void setDevices(List<Device> devices) {
         this.devices = devices;
     }
 }

@@ -5,12 +5,20 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
+<<<<<<< HEAD
 import java.util.List;
 
 @Entity
 @Table(name = "aorder")
 @JsonDeserialize(builder = Order.Builder.class)
 public class Order implements Serializable{
+=======
+
+@Entity
+@Table(name = "order")
+@JsonDeserialize(builder = Order.Builder.class)
+public class Order implements Serializable {
+>>>>>>> upstream/database
     private static final long serialVersionUID = 1L;
 
     @Id
