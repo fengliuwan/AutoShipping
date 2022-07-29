@@ -23,6 +23,16 @@ public class Device implements Serializable {
     private Long deviceId;
     private double deliverDistance;
 
+    private DeviceType deviceType;
+
+    public void setDeviceType(DeviceType deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public DeviceType getDeviceType() {
+        return deviceType;
+    }
+
     @ManyToOne
     @JoinColumn(name = "station_Id")
     private Station station;
