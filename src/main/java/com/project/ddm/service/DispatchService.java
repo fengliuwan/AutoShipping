@@ -1,9 +1,7 @@
 package com.project.ddm.service;
 
 import com.project.ddm.model.Device;
-import com.project.ddm.model.DeviceType;
 import com.project.ddm.model.Station;
-import com.project.ddm.repository.DeviceReserveDateRepository;
 import com.project.ddm.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,7 @@ import java.util.Set;
 public class DispatchService {
 
     private StationRepository stationRepository;
-    private DeviceReserveDateRepository deviceReserveDateRepository;
+
 
     @Autowired
     public DispatchService(StationRepository stationRepository,
