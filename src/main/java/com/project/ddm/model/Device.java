@@ -28,6 +28,8 @@ public class Device implements Serializable {
 
     private DeviceType deviceType;
 
+
+
     @OneToOne
     private Order orders;
 
@@ -37,6 +39,7 @@ public class Device implements Serializable {
         this.id = builder.id;
         this.deliverDistance = builder.deliverDistance;
         this.station = builder.station;
+        this.deviceType = builder.deviceType;
     }
 
     public Long getId() {
@@ -71,18 +74,27 @@ public class Device implements Serializable {
         this.orders = orders;
     }
 
+    public DeviceType getDeviceType() {
+        return deviceType;
+    }
+    public void setDeviceType(DeviceType deviceType) {
+        this.deviceType = deviceType;
+    }
+
     public static class Builder{
         @JsonProperty("id")
         private Long id;
 
-        @JsonProperty("deliverDistance")
+        @JsonProperty("deliver_distance")
         private double deliverDistance;
 
         @JsonProperty("station")
         private Station station;
 
-        @JsonProperty("deviceReverseDates")
+        @JsonProperty("device_reverseDates")
         private List<DeviceReserveDate> deviceReverseDates;
+        @JsonProperty("deviceType")
+        private DeviceType deviceType;
 
         @JsonProperty
         private Order order;
