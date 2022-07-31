@@ -7,14 +7,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @JsonDeserialize(builder = Order.Builder.class)
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long orderId;
+    private Long id;
 
     private Long trackId;
 
@@ -30,10 +30,13 @@ public class Order implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToOne
+    private Order order;
+
     public Order() {}
 
     private Order(Builder builder) {
-        this.orderId = builder.orderId;
+        this.id = builder.orderId;
         this.trackId = builder.trackId;
         this.weight = builder.weight;
         this.price = builder.price;
@@ -43,7 +46,7 @@ public class Order implements Serializable {
     }
 
     public Long getOrderId() {
-        return orderId;
+        return id;
     }
 
     public Long getTrackId() {

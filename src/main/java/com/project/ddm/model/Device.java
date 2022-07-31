@@ -26,10 +26,10 @@ public class Device implements Serializable {
     @JoinColumn(name = "station_id")
     private Station station;
 
-
+    private DeviceType deviceType;
 
     @OneToOne
-    private Order order;
+    private Order orders;
 
     public  Device(){}
 
@@ -64,11 +64,11 @@ public class Device implements Serializable {
     }
 
     public Order getOrders() {
-        return order;
+        return orders;
     }
 
     public void setOrders(Order orders) {
-        this.order = orders;
+        this.orders = orders;
     }
 
     public static class Builder{

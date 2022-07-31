@@ -11,7 +11,7 @@ public class Station implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long stationId;
+    private long id;
 
     private double longitude;
     private double latitude;
@@ -20,7 +20,7 @@ public class Station implements Serializable {
     private List<Device> devices;
 
     public long getStationId() {
-        return stationId;
+        return id;
     }
 
     public double getLongitude() {
@@ -36,7 +36,7 @@ public class Station implements Serializable {
     }
 
     public void setStationId(int stationId) {
-        this.stationId = stationId;
+        this.id = stationId;
     }
 
     public void setLongitude(double longitude) {
