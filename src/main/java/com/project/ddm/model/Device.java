@@ -1,15 +1,7 @@
 
 package com.project.ddm.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import javax.persistence.*;
-import javax.persistence.criteria.Order;
 import java.io.Serializable;
 
 @Entity
@@ -24,11 +16,11 @@ public class Device implements Serializable {
     private double deliverDistance;
 
     @ManyToOne
-    @JoinColumn(name = "stations_id")
+    @JoinColumn(name = "station_id")
     private Station station;
 
-//    @OneToOne
-//    private Order order;
+    @OneToOne
+    private Order order;
 
     private String deviceType;
 

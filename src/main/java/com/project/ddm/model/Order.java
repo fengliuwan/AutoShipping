@@ -14,6 +14,6 @@ public class Order implements Serializable {
     @Id
     private Long id;
 
-//    @OneToOne
-//    private Device device;
+    @OneToOne
+    private Device device;
 }
