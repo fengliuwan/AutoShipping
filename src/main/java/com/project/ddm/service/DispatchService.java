@@ -1,12 +1,17 @@
 package com.project.ddm.service;
 
 import com.project.ddm.model.Device;
+import com.project.ddm.model.DeviceType;
 import com.project.ddm.model.Station;
+import com.project.ddm.repository.DeviceReserveDateRepository;
 import com.project.ddm.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +20,7 @@ import java.util.Set;
 public class DispatchService {
 
     private StationRepository stationRepository;
+    private DeviceReserveDateRepository deviceReserveDateRepository;
 
 
     @Autowired
@@ -29,16 +35,16 @@ public class DispatchService {
      * @param lat delivery origin latitude
      * @return id of the station closest to sender's location
      */
-    public int getClosestStationId(double lon, double lat) {
+    public Long getClosestStationId(double lon, double lat) {
         List<Station> stations = stationRepository.findAll();
-        int bestId = -1;
+        Long bestId = -1L;
         double bestDist = Double.MAX_VALUE;
 
         // get station closest to lon lat
         for (Station station : stations) {
             double stationLon = station.getLongitude();
             double stationLat = station.getLatitude();
-            double dist = getDistance(lon, lat, stationLon, stationLat);
+            double dist = getGlobeDistance(lon, lat, stationLon, stationLat);
             if (dist < bestDist) {
                 bestDist = dist;
                 bestId = station.getStationId();
@@ -59,13 +65,36 @@ public class DispatchService {
         return Math.abs(lon - stationLon) + Math.abs(lat - stationLat);
     }
 
-    public List<Long> getAvailableDeviceIdsAtStation (int stationId, DeviceType type) {
+    // calculates the distance between two points (given the
+    //latitude/longitude of those points). It is being used to calculate
+    //the distance between two locations using GeoDataSource (TM) products
+    // https://www.geodatasource.com/developers/java
+    public double getGlobeDistance(double lat1, double lon1, double lat2, double lon2) {
+        if ((lat1 == lat2) && (lon1 == lon2)) {
+            return 0;
+        }
+        else {
+            double theta = lon1 - lon2;
+            double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
+            dist = Math.acos(dist);
+            dist = Math.toDegrees(dist);
+            dist = dist * 60 * 1.1515;
+            /*if (unit.equals("K")) {
+                dist = dist * 1.609344;
+            } else if (unit.equals("N")) {
+                dist = dist * 0.8684;
+            }*/
+            return (dist);
+        }
+    }
+
+    public List<Long> getAvailableDeviceIdsAtStation (Long stationId, String type) {
         Station station = stationRepository.findStationById(stationId);
         List<Device> devices = new ArrayList<>();
 
         // get device that matches type
         for (Device device : station.getDevices()) {
-            if (device.getDeviceType() == type) {
+            if (device.getDeviceType().equals(type)) {
                 devices.add(device);
             }
         }
@@ -74,7 +103,7 @@ public class DispatchService {
             deviceIds.add(device.getDeviceId());
         }
 
-        Set<Long> reservedDeviceIds = deviceReserveDateRepository.findByIdAndDateBefore(deviceIds, LocalDate.now());
+        Set<Long> reservedDeviceIds = deviceReserveDateRepository.findByIdAndTimeAfter(deviceIds, Time.valueOf(LocalTime.now()));
 
         List<Long> filteredDeviceIds = new ArrayList<>();
         for (Long id : deviceIds) {
