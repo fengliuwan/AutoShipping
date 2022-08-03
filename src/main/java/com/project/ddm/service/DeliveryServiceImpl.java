@@ -13,34 +13,34 @@ public class DeliveryServiceImpl {
 
 
 
-    public List<Long> getPickUpTime() {
+    public List<Long> getPickUpTime(double lon1, double lat1, double lon2, double lat2) {
         List<Long> list = new ArrayList<>();
         //机器人
 
-        double robotDistance = getRobotDistance(sendingLon, sendingLat, stationLon, stationLat);
+        double robotDistance = getRobotDistance(lon1, lat1, lon2, lat2);
         double robotTime = robotDistance / 33.6;
         list.add(Double.valueOf(robotTime).longValue());
 
         // 无人机
 
-        double droneDistance = getDroneDistance(sendingLon, sendingLat, stationLon, stationLat);
+        double droneDistance = getDroneDistance(lon1, lat1, lon2, lat2);
         double droneTime = droneDistance/ 33.6;
         list.add(Double.valueOf(droneTime).longValue());
         return list;
     }
 
 
-    public List<Long> getDeliveryTime() {
+    public List<Long> getDeliveryTime(double lon1, double lat1, double lon2, double lat2) {
         List<Long> list = new ArrayList<>();
 
 
-        double robotDistance = getRobotDistance(sendingLon, sendingLat, receivingLon, receivingLat);
+        double robotDistance = getRobotDistance(lon1, lat1, lon2, lat2);
         double robotTime = robotDistance / 33.6;
         list.add(Double.valueOf(robotTime).longValue());
 
 
 
-        double droneDistance = getDroneDistance(sendingLon, sendingLat, receivingLon, receivingLat);
+        double droneDistance = getDroneDistance(lon1, lat1, lon2, lat2);
         double droneTime = droneDistance / 33.6;
         list.add(Double.valueOf(droneTime).longValue());
         return list;
