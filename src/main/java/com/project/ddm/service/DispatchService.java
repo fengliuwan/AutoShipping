@@ -22,7 +22,6 @@ public class DispatchService {
     private StationRepository stationRepository;
     private DeviceReserveDateRepository deviceReserveDateRepository;
 
-
     @Autowired
     public DispatchService(StationRepository stationRepository,
                            DeviceReserveDateRepository deviceReserveDateRepository) {
@@ -35,16 +34,16 @@ public class DispatchService {
      * @param lat delivery origin latitude
      * @return id of the station closest to sender's location
      */
-    public Long getClosestStationId(double lon, double lat) {
+    public Long getClosestStationId(double lat, double lon) {
         List<Station> stations = stationRepository.findAll();
         Long bestId = -1L;
         double bestDist = Double.MAX_VALUE;
 
-        // get station closest to lon lat
+        // get station closest to lat lon
         for (Station station : stations) {
-            double stationLon = station.getLongitude();
             double stationLat = station.getLatitude();
-            double dist = getGlobeDistance(lon, lat, stationLon, stationLat);
+            double stationLon = station.getLongitude();
+            double dist = getGlobeDistance(lat, lon, stationLat, stationLon);
             if (dist < bestDist) {
                 bestDist = dist;
                 bestId = station.getStationId();
@@ -61,8 +60,8 @@ public class DispatchService {
      * @param stationLat station's latitude
      * @return distance from sender's location to station's location
      */
-    private double getDistance(double lon, double lat, double stationLon, double stationLat) {
-        return Math.abs(lon - stationLon) + Math.abs(lat - stationLat);
+    private double getDistance(double lat, double lon, double stationLat, double stationLon) {
+        return Math.abs(lat - stationLat) + Math.abs(lon - stationLon);
     }
 
     // calculates the distance between two points (given the
@@ -100,7 +99,7 @@ public class DispatchService {
         }
         List<Long> deviceIds = new ArrayList<>();
         for (Device device : devices) {
-            deviceIds.add(device.getDeviceId());
+            deviceIds.add(device.getId());
         }
 
         Set<Long> reservedDeviceIds = deviceReserveDateRepository.findByIdAndTimeAfter(deviceIds, Time.valueOf(LocalTime.now()));

@@ -9,10 +9,6 @@ import java.util.List;
 @Service
 public class DeliveryServiceImpl {
 
-
-
-
-
     public List<Long> getPickUpTime(double lon1, double lat1, double lon2, double lat2) {
         List<Long> list = new ArrayList<>();
         //机器人

@@ -13,9 +13,9 @@ public class OrderController {
     @Autowired
     private DispatchService dispatchService;
 
-    @GetMapping(value = "/search/station/{lon}/{lat}")
-    public Long getStationId(@PathVariable double lon, @PathVariable double lat) {
-        return dispatchService.getClosestStationId(lon, lat);
+    @GetMapping(value = "/search/station/{lat}/{lon}")
+    public Long getStationId(@PathVariable double lat, @PathVariable double lon) {
+        return dispatchService.getClosestStationId(lat, lon);
     }
 
     @GetMapping(value = "/search/device/{stationId}/{deviceType}")
