@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/register/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/authenticate/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/track/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/order").hasAuthority("ROLE_USER") // only registered user can access order
                 .antMatchers(HttpMethod.GET, "/order/*").hasAuthority("ROLE_USER")
                 .anyRequest().authenticated()
