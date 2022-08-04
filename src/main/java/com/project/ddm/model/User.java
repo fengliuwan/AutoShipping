@@ -16,7 +16,7 @@ public class User implements Serializable {
     @Id
     //有一个自增的主键
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String userId;
+    private Long id;
     @JsonIgnore
     private String username;
     @JsonIgnore
@@ -30,13 +30,14 @@ public class User implements Serializable {
 
     public User() {}
     private User(Builder builder) {
-        this.userId = builder.userId;
+        this.id = builder.id;
         this.username = builder.username;
         this.password = builder.password;
+        this.orders = builder.orders;
     }
 
-    public String getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
     public String getUsername() {
@@ -57,9 +58,17 @@ public class User implements Serializable {
         return this;
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
     public static class Builder {
-        @JsonProperty("userId")
-        private String userId;
+        @JsonProperty("id")
+        private Long id;
 
         @JsonProperty("username")
         private String username;
@@ -70,8 +79,8 @@ public class User implements Serializable {
         @JsonProperty("orders")
         private List<Order> orders;
 
-        public Builder setUserId(String userId) {
-            this.userId = userId;
+        public Builder setId(Long id) {
+            this.id = id;
             return this;
         }
 
@@ -85,7 +94,7 @@ public class User implements Serializable {
             return this;
         }
 
-        public Builder setOrderId(List<Order> orders) {
+        public Builder setOrders(List<Order> orders) {
             this.orders = orders;
             return this;
         }

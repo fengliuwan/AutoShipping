@@ -5,25 +5,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
-<<<<<<< HEAD
-import java.util.List;
 
 @Entity
-@Table(name = "aorder")
-@JsonDeserialize(builder = Order.Builder.class)
-public class Order implements Serializable{
-=======
-
-@Entity
-@Table(name = "order")
+@Table(name = "orders")
 @JsonDeserialize(builder = Order.Builder.class)
 public class Order implements Serializable {
->>>>>>> upstream/database
+
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long orderId;
+    private Long id;
 
     private Long trackId;
 
@@ -35,19 +27,27 @@ public class Order implements Serializable {
 
     private String receivingAddress;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToOne
+    private Order order;
+
     public Order() {}
 
     private Order(Builder builder) {
-        this.orderId = builder.orderId;
+        this.id = builder.orderId;
         this.trackId = builder.trackId;
         this.weight = builder.weight;
         this.price = builder.price;
         this.sendingAddress = builder.sendingAddress;
         this.receivingAddress = builder.receivingAddress;
+        this.user = builder.user;
     }
 
     public Long getOrderId() {
-        return orderId;
+        return id;
     }
 
     public Long getTrackId() {
@@ -90,6 +90,9 @@ public class Order implements Serializable {
         @JsonProperty("receiving_address")
         private String receivingAddress;
 
+        @JsonProperty
+        private User user;
+
         public Builder setOrderId(Long orderId) {
             this.orderId = orderId;
             return this;
@@ -117,6 +120,11 @@ public class Order implements Serializable {
 
         public Builder setReceivingAddress(String receivingAddress) {
             this.receivingAddress = receivingAddress;
+            return this;
+        }
+
+        public Builder setUser(User user){
+            this.user = user;
             return this;
         }
 

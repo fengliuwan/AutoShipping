@@ -1,37 +1,40 @@
 package com.project.ddm.model;
 
+import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Embeddable
 public class DeviceReservedDateKey implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long deviceId;
-    private LocalDate date;
+    private Long device_id;
+    private Time time;
 
     public DeviceReservedDateKey() {}
 
-    public DeviceReservedDateKey(Long stay_id, LocalDate date) {
-        this.deviceId = deviceId;
-        this.date = date;
+    public DeviceReservedDateKey(Long device_id, Time time) {
+        this.device_id = device_id;
+        this.time = time;
     }
 
-    public Long getDeviceId() {
-        return deviceId;
+    public Long getDevice_id() {
+        return device_id;
     }
 
-    public DeviceReservedDateKey setStay_id(Long deviceId) {
-        this.deviceId = deviceId;
+    public DeviceReservedDateKey setDevice_id(Long deviceId) {
+        this.device_id = device_id;
         return this;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public Time getTime() {
+        return time;
     }
 
-    public DeviceReservedDateKey setDate(LocalDate date) {
-        this.date = date;
+    public DeviceReservedDateKey setTime(Time time) {
+        this.time = time;
         return this;
     }
 
@@ -40,11 +43,11 @@ public class DeviceReservedDateKey implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DeviceReservedDateKey that = (DeviceReservedDateKey) o;
-        return deviceId.equals(that.deviceId) && date.equals(that.date);
+        return device_id.equals(that.device_id) && time.equals(that.time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(deviceId, date);
+        return Objects.hash(device_id, time);
     }
 }
