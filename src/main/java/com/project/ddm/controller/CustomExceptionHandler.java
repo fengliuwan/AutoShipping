@@ -2,6 +2,7 @@ package com.project.ddm.controller;
 
 import com.project.ddm.exception.UserAlreadyExistException;
 import com.project.ddm.exception.UserNotExistException;
+import com.project.ddm.exception.OrderNotExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,4 +21,9 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
+
+    @ExceptionHandler(OrderNotExistException.class)
+    public final ResponseEntity<String> handleOrderNotExistException(Exception ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }

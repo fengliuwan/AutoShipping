@@ -25,10 +25,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/search").permitAll() // 允许所有对该域名的访问 order matters
                 .antMatchers(HttpMethod.POST, "/register/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/authenticate/*").permitAll()
-                .anyRequest().permitAll()
+                .antMatchers(HttpMethod.GET, "/order").hasAuthority("ROLE_USER") // only registered user can access order
+                .antMatchers(HttpMethod.GET, "/order/*").hasAuthority("ROLE_USER")
+                .anyRequest().authenticated()
                 .and()
                 .csrf()
                 .disable(); // disable cross site request forgery
