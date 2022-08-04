@@ -1,6 +1,5 @@
 package com.project.ddm.service;
 
-import com.project.ddm.model.Device;
 import com.project.ddm.model.Station;
 import com.project.ddm.repository.StationRepository;
 import com.project.ddm.repository.TrackRepository;
@@ -10,14 +9,14 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
-public class checkout {
+public class CheckoutService {
 
     private DispatchService dispatchService;
     private StationRepository stationRepository;
     private TrackRepository trackRepository;
 
     @Autowired
-    public checkout(DispatchService dispatchService, StationRepository stationRepository, TrackRepository trackRepository) {
+    public CheckoutService(DispatchService dispatchService, StationRepository stationRepository, TrackRepository trackRepository) {
         this.dispatchService = dispatchService;
         this.stationRepository = stationRepository;
         this.trackRepository = trackRepository;
