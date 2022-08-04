@@ -3,14 +3,14 @@ package com.project.ddm.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "device_reserved_date")
+@Table(name = "device_reserve_date")
 public class DeviceReserveDate {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     private DeviceReservedDateKey id;
 
+    @OneToOne
     @MapsId("device_id")
-    @ManyToOne
     private Device device;
 
     public DeviceReserveDate() {}

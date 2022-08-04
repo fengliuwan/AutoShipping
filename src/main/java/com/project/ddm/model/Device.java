@@ -27,12 +27,10 @@ public class Device implements Serializable {
     @JoinColumn(name = "station_id")
     private Station station;
 
-    private DeviceType deviceType;
-
-
+    private String deviceType;
 
     @OneToOne
-    private Order orders;
+    private Order order;
 
     public  Device(){}
 
@@ -41,6 +39,7 @@ public class Device implements Serializable {
         this.deliverDistance = builder.deliverDistance;
         this.station = builder.station;
         this.deviceType = builder.deviceType;
+        this.order = builder.order;
     }
 
     public Long getId() {
@@ -68,17 +67,17 @@ public class Device implements Serializable {
     }
 
     public Order getOrders() {
-        return orders;
+        return order;
     }
 
-    public void setOrders(Order orders) {
-        this.orders = orders;
+    public void setOrders(Order order) {
+        this.order = order;
     }
 
-    public DeviceType getDeviceType() {
+    public String getDeviceType() {
         return deviceType;
     }
-    public void setDeviceType(DeviceType deviceType) {
+    public void setDeviceType(String deviceType) {
         this.deviceType = deviceType;
     }
 
@@ -94,8 +93,8 @@ public class Device implements Serializable {
 
         @JsonProperty("device_reverseDates")
         private List<DeviceReserveDate> deviceReverseDates;
-        @JsonProperty("deviceType")
-        private DeviceType deviceType;
+        @JsonProperty("device_type")
+        private String deviceType;
 
         @JsonProperty
         private Order order;

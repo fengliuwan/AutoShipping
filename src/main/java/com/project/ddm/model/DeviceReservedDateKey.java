@@ -3,7 +3,6 @@ package com.project.ddm.model;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.util.Objects;
 
 @Embeddable
