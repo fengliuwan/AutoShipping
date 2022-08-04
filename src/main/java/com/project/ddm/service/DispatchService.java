@@ -60,7 +60,7 @@ public class DispatchService {
      * @param stationLat station's latitude
      * @return distance from sender's location to station's location
      */
-    private double getDistance(double lat, double lon, double stationLat, double stationLon) {
+    public double getDistance(double lat, double lon, double stationLat, double stationLon) {
         return Math.abs(lat - stationLat) + Math.abs(lon - stationLon);
     }
 
