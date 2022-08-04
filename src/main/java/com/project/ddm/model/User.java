@@ -21,12 +21,12 @@ public class User implements Serializable {
     private String username;
     @JsonIgnore
     private String password;
-
+    // field added and used by register/auth service
+    @JsonIgnore
+    private boolean enabled;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private List<Order> orders;
-
-
 
     public User() {}
     private User(Builder builder) {
@@ -34,6 +34,7 @@ public class User implements Serializable {
         this.username = builder.username;
         this.password = builder.password;
         this.orders = builder.orders;
+        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -58,6 +59,16 @@ public class User implements Serializable {
         return this;
     }
 
+    // method added by register/auth service
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    // method added by register/auth service
+    public User setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
     public List<Order> getOrders() {
         return orders;
     }
@@ -78,6 +89,9 @@ public class User implements Serializable {
 
         @JsonProperty("orders")
         private List<Order> orders;
+        // field added and used by register/auth service
+        @JsonProperty("enabled")
+        private boolean enabled;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -99,8 +113,11 @@ public class User implements Serializable {
             return this;
         }
 
-
-
+        // method used by register/auth service
+        public Builder setEnabled(boolean enabled) {
+            this.enabled = enabled;
+            return this;
+        }
         public User build() {
             return new User(this);
         }
