@@ -13,10 +13,11 @@ import java.util.List;
 @JsonDeserialize(builder = User.Builder.class)
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
     //有一个自增的主键
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @JsonIgnore
     private String username;
     @JsonIgnore

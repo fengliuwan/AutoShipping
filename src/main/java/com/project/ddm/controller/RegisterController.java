@@ -3,6 +3,7 @@ package com.project.ddm.controller;
 
 import com.project.ddm.model.User;
 import com.project.ddm.model.UserRole;
+import com.project.ddm.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
