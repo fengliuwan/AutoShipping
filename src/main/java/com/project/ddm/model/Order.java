@@ -28,7 +28,7 @@ public class Order implements Serializable {
     private String receivingAddress;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_name")
     private User user;
 
     @OneToOne

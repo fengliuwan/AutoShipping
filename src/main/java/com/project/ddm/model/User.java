@@ -13,12 +13,7 @@ import java.util.List;
 @JsonDeserialize(builder = User.Builder.class)
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
-    //有一个自增的主键
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @JsonIgnore
     private String username;
     @JsonIgnore
     private String password;
@@ -31,16 +26,12 @@ public class User implements Serializable {
 
     public User() {}
     private User(Builder builder) {
-        this.id = builder.id;
         this.username = builder.username;
         this.password = builder.password;
         this.orders = builder.orders;
         this.enabled = enabled;
     }
 
-    public Long getId() {
-        return id;
-    }
 
     public String getUsername() {
         return username;
@@ -79,9 +70,6 @@ public class User implements Serializable {
     }
 
     public static class Builder {
-        @JsonProperty("id")
-        private Long id;
-
         @JsonProperty("username")
         private String username;
 
@@ -93,11 +81,6 @@ public class User implements Serializable {
         // field added and used by register/auth service
         @JsonProperty("enabled")
         private boolean enabled;
-
-        public Builder setId(Long id) {
-            this.id = id;
-            return this;
-        }
 
         public Builder setUsername(String username) {
             this.username = username;
