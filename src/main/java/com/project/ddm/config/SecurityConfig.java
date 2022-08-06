@@ -1,5 +1,6 @@
 package com.project.ddm.config;
 
+import com.project.ddm.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -21,6 +22,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
+    @Autowired  // security config need to filter request
+    private JwtFilter jwtFilter;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -28,14 +32,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/register/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/authenticate/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/track/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/order").hasAuthority("ROLE_USER") // only registered user can access order
-                .antMatchers(HttpMethod.GET, "/order/*").hasAuthority("ROLE_USER")
-                .antMatchers(HttpMethod.GET,"/order/historyorders").hasAuthority("ROLE_USER")
-                .antMatchers(HttpMethod.GET,"/order/historyorders/*").hasAuthority("ROLE_USER")
+                .antMatchers("/order").hasAuthority("ROLE_USER") // only registered user can access order
+                .antMatchers("/order/*").hasAuthority("ROLE_USER")
+                .antMatchers("/order/historyorders").hasAuthority("ROLE_USER")
+                .antMatchers("/order/historyorders/*").hasAuthority("ROLE_USER")
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
                 .disable(); // disable cross site request forgery
+        http
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // token based authentication stateless
+                .and()
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        //add jwt filter before UPAF to verify request has valid token first
     }
 
     @Bean
