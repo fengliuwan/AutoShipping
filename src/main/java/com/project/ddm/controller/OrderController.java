@@ -1,12 +1,12 @@
 package com.project.ddm.controller;
-
+import java.security.Principal;
 import com.project.ddm.model.Order;
 import com.project.ddm.model.Station;
 import com.project.ddm.repository.StationRepository;
 import com.project.ddm.service.DeliveryService;
 import com.project.ddm.service.DispatchService;
 import com.project.ddm.service.CheckoutService;
-import com.project.ddm.service.OrderService;
+import com.project.ddm.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,15 +28,13 @@ public class OrderController {
 
     private StationRepository stationRepository;
 
-    private OrderService orderService;
 
     @Autowired
-    public OrderController(DispatchService dispatchService, CheckoutService checkout, DeliveryService deliveryService, StationRepository stationRepository, OrderService orderService) {
+    public OrderController(DispatchService dispatchService, CheckoutService checkout, DeliveryService deliveryService, StationRepository stationRepository) {
         this.dispatchService = dispatchService;
         this.checkout = checkout;
         this.deliveryService = deliveryService;
         this.stationRepository = stationRepository;
-        this.orderService = orderService;
     }
 
     @GetMapping(value = "/order/search/station/{lat}/{lon}")
@@ -74,10 +72,5 @@ public class OrderController {
         map.put("pick_up_time", pickUpTime);
         map.put("delivery_time", deliveryTime);
         return map;
-    }
-
-    @GetMapping(value="/order/historyorders/{username}")
-    public List<Order> historyOrders(@PathVariable String username) {
-        return orderService.findByUser(username);
     }
 }

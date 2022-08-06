@@ -34,8 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/track/*").permitAll()
                 .antMatchers("/order").hasAuthority("ROLE_USER") // only registered user can access order
                 .antMatchers("/order/*").hasAuthority("ROLE_USER")
-                .antMatchers("/order/historyorders").hasAuthority("ROLE_USER")
-                .antMatchers("/order/historyorders/*").hasAuthority("ROLE_USER")
+                .antMatchers("/user/historyorders").hasAuthority("ROLE_USER")
+                .antMatchers("/user/information").hasAuthority("ROLE_USER")
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
