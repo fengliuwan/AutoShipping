@@ -38,21 +38,10 @@ public class OrderController {
         this.stationRepository = stationRepository;
     }
 
-    @GetMapping(value = "/order/search/station/{lat}/{lon}")
-    public Long getStationId(@PathVariable double lat, @PathVariable double lon) {
-        return dispatchService.getClosestStationId(lat, lon);
-    }
-
-    @GetMapping(value = "/order/search/device/{stationId}/{deviceType}")
-    public List<Long> getDevice(@PathVariable Long stationId, @PathVariable String deviceType) {
-        return dispatchService.getAvailableDeviceIdsAtStation(stationId, deviceType);
-    }
-
     @GetMapping(value = "/order/search/device/{lon1}/{lat1}/{lon2}/{lat2}/{weight}/{size}/{device}")
     public double getCost(@PathVariable double lon1, @PathVariable double lat1, @PathVariable double lon2, @PathVariable double lat2, @PathVariable double weight, @PathVariable double size, @PathVariable String device) {
         return checkoutService.getCost(weight, size, lon1, lat1, lon2, lat2, device);
     }
-
 
     @GetMapping(value = "/order/generate")
     public Map<String, Object> generateOrder(
