@@ -32,12 +32,12 @@ public class Order implements Serializable {
     private User user;
 
     @OneToOne
-    private Order order;
+    private Device device;
 
     public Order() {}
 
     private Order(Builder builder) {
-        this.id = builder.orderId;
+        this.id = builder.id;
         this.trackId = builder.trackId;
         this.weight = builder.weight;
         this.price = builder.price;
@@ -72,8 +72,8 @@ public class Order implements Serializable {
 
     public static class Builder {
 
-        @JsonProperty("order_id")
-        private Long orderId;
+        @JsonProperty("id")
+        private Long id;
 
         @JsonProperty("track_id")
         private Long trackId;
@@ -93,8 +93,8 @@ public class Order implements Serializable {
         @JsonProperty
         private User user;
 
-        public Builder setOrderId(Long orderId) {
-            this.orderId = orderId;
+        public Builder setOrderId(Long id) {
+            this.id = id;
             return this;
         }
 
