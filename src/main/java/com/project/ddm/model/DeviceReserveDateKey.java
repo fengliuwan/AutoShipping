@@ -6,15 +6,15 @@ import java.sql.Time;
 import java.util.Objects;
 
 @Embeddable
-public class DeviceReservedDateKey implements Serializable {
+public class DeviceReserveDateKey implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long device_id;
     private Time time;
 
-    public DeviceReservedDateKey() {}
+    public DeviceReserveDateKey() {}
 
-    public DeviceReservedDateKey(Long device_id, Time time) {
+    public DeviceReserveDateKey(Long device_id, Time time) {
         this.device_id = device_id;
         this.time = time;
     }
@@ -23,7 +23,7 @@ public class DeviceReservedDateKey implements Serializable {
         return device_id;
     }
 
-    public DeviceReservedDateKey setDevice_id(Long deviceId) {
+    public DeviceReserveDateKey setDevice_id(Long deviceId) {
         this.device_id = device_id;
         return this;
     }
@@ -32,7 +32,7 @@ public class DeviceReservedDateKey implements Serializable {
         return time;
     }
 
-    public DeviceReservedDateKey setTime(Time time) {
+    public DeviceReserveDateKey setTime(Time time) {
         this.time = time;
         return this;
     }
@@ -41,7 +41,7 @@ public class DeviceReservedDateKey implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DeviceReservedDateKey that = (DeviceReservedDateKey) o;
+        DeviceReserveDateKey that = (DeviceReserveDateKey) o;
         return device_id.equals(that.device_id) && time.equals(that.time);
     }
 

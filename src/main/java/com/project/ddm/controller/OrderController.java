@@ -1,15 +1,16 @@
 package com.project.ddm.controller;
 import java.security.Principal;
-import com.project.ddm.model.Order;
-import com.project.ddm.model.Station;
+
+import com.project.ddm.model.*;
 import com.project.ddm.repository.StationRepository;
 import com.project.ddm.service.DeliveryService;
 import com.project.ddm.service.DispatchService;
 import com.project.ddm.service.CheckoutService;
-import com.project.ddm.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,12 +54,13 @@ public class OrderController {
     }
 
 
-    @GetMapping(value = "order/generate")
+    @GetMapping(value = "/order/generate")
     public Map<String, Object> generateOrder(
             @RequestParam(name = "sending_lat") double sendingLat,
             @RequestParam(name = "sending_lon") double sendingLon,
             @RequestParam(name = "receiving_lat") double receivingLat,
-            @RequestParam(name = "receiving_lon") double receivingLon) {
+            @RequestParam(name = "receiving_lon") double receivingLon,
+            Principal principal) { // principal 在authentication之后存在用户线程中
 
         Long stationId = dispatchService.getClosestStationId(sendingLon, sendingLat);
         System.out.println(stationId);
@@ -74,8 +76,9 @@ public class OrderController {
         return map;
     }
 
-    @PostMapping("/order")
-    public void addOrder(@RequestBody Order order) {
-        //checkoutService.placeOrder(order);
+    @PostMapping("/order/{deviceType}")
+    public void addOrder(@RequestBody Order order, @PathVariable String deviceType) {
+        checkoutService.placeOrder(order, deviceType);
     }
+
 }

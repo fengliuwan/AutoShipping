@@ -32,12 +32,14 @@ public class DeliveryService {
 
         double robotDistance = getRobotDistance(lon1, lat1, lon2, lat2);
         double robotTime = robotDistance / 33.6;
+        System.out.println(robotDistance);
         list.add(Double.valueOf(robotTime).longValue());
 
 
 
         double droneDistance = getDroneDistance(lon1, lat1, lon2, lat2);
-        double droneTime = droneDistance / 33.6;
+        System.out.println(droneDistance);
+        double droneTime = droneDistance / 67.2;
         list.add(Double.valueOf(droneTime).longValue());
         return list;
     }

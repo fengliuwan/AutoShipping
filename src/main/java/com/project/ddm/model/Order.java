@@ -1,5 +1,6 @@
 package com.project.ddm.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -27,11 +28,12 @@ public class Order implements Serializable {
 
     private String receivingAddress;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_name")
     private User user;
 
-    @OneToOne
+    @OneToOne (cascade = CascadeType.ALL)
+    //@JoinColumn(name = "device_id", referencedColumnName = "id")
     private Device device;
 
     public Order() {}
@@ -49,8 +51,6 @@ public class Order implements Serializable {
     public void setDevice(Device device) {
         this.device = device;
     }
-
-    // having getter report error!!!
 //    public Device getDevice(){
 //        return device;
 //    }
@@ -99,10 +99,11 @@ public class Order implements Serializable {
         @JsonProperty("receiving_address")
         private String receivingAddress;
 
-        @JsonProperty
+        @JsonProperty("user")
         private User user;
 
-        public Builder setOrderId(Long id) {
+
+        public Builder setId(Long id) {
             this.id = id;
             return this;
         }

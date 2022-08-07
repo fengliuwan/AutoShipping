@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class DeviceReserveDate {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    private DeviceReservedDateKey id;
+    private DeviceReserveDateKey id;
 
     @OneToOne
     @MapsId("device_id")
@@ -15,12 +15,12 @@ public class DeviceReserveDate {
 
     public DeviceReserveDate() {}
 
-    public DeviceReserveDate(DeviceReservedDateKey id, Device device) {
+    public DeviceReserveDate(DeviceReserveDateKey id, Device device) {
         this.id = id;
         this.device = device;
     }
 
-    public DeviceReservedDateKey getId() {
+    public DeviceReserveDateKey getId() {
         return id;
     }
 

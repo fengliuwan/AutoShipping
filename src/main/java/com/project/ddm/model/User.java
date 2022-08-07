@@ -2,6 +2,7 @@ package com.project.ddm.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,19 +17,20 @@ public class User implements Serializable {
     @Id
     private String username;
     @JsonIgnore
+    @NotNull
     private String password;
     // field added and used by register/auth service
     @JsonIgnore
     private boolean enabled;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
     private List<Order> orders;
 
     public User() {}
     private User(Builder builder) {
         this.username = builder.username;
         this.password = builder.password;
-        this.orders = builder.orders;
+//        this.orders = builder.orders;
         this.enabled = enabled;
     }
 
@@ -61,13 +63,13 @@ public class User implements Serializable {
         this.enabled = enabled;
         return this;
     }
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
+//    public List<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public void setOrders(List<Order> orders) {
+//        this.orders = orders;
+//    }
 
     public static class Builder {
         @JsonProperty("username")
@@ -76,8 +78,9 @@ public class User implements Serializable {
         @JsonProperty("password")
         private String password;
 
-        @JsonProperty("orders")
-        private List<Order> orders;
+//        @JsonProperty("orders")
+//        private List<Order> orders;
+
         // field added and used by register/auth service
         @JsonProperty("enabled")
         private boolean enabled;
@@ -92,10 +95,10 @@ public class User implements Serializable {
             return this;
         }
 
-        public Builder setOrders(List<Order> orders) {
-            this.orders = orders;
-            return this;
-        }
+//        public Builder setOrders(List<Order> orders) {
+//            this.orders = orders;
+//            return this;
+//        }
 
         // method used by register/auth service
         public Builder setEnabled(boolean enabled) {
