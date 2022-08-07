@@ -44,7 +44,6 @@ public class Order implements Serializable {
         this.sendingAddress = builder.sendingAddress;
         this.receivingAddress = builder.receivingAddress;
         this.user = builder.user;
-        this.device = builder.device;
     }
 
     public void setDevice(Device device) {
@@ -100,8 +99,6 @@ public class Order implements Serializable {
         @JsonProperty("user")
         private User user;
 
-        @JsonProperty("device")
-        private Device device;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -130,10 +127,6 @@ public class Order implements Serializable {
 
         public Builder setReceivingAddress(String receivingAddress) {
             this.receivingAddress = receivingAddress;
-            return this;
-        }
-        public Builder setDevice(Device device) {
-            this.device = device;
             return this;
         }
 
