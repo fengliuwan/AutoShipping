@@ -33,7 +33,7 @@ public class Order implements Serializable {
     private User user;
 
     @OneToOne (cascade = CascadeType.ALL)
-    @JoinColumn(name = "device_id", referencedColumnName = "id")
+    //@JoinColumn(name = "device_id", referencedColumnName = "id")
     private Device device;
 
     public Order() {}

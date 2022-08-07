@@ -2,6 +2,7 @@ package com.project.ddm.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ public class User implements Serializable {
     @Id
     private String username;
     @JsonIgnore
+    @NotNull
     private String password;
     // field added and used by register/auth service
     @JsonIgnore
