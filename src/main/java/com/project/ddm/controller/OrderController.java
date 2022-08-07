@@ -6,11 +6,10 @@ import com.project.ddm.repository.StationRepository;
 import com.project.ddm.service.DeliveryService;
 import com.project.ddm.service.DispatchService;
 import com.project.ddm.service.CheckoutService;
+import com.project.ddm.service.GeoCodingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,16 +25,20 @@ public class OrderController {
 
     private StationRepository stationRepository;
 
+    private GeoCodingService geoCodingService;
+
 
     @Autowired
     public OrderController(DispatchService dispatchService,
                            CheckoutService checkoutService,
                            DeliveryService deliveryService,
-                           StationRepository stationRepository) {
+                           StationRepository stationRepository,
+                           GeoCodingService geoCodingService) {
         this.dispatchService = dispatchService;
         this.checkoutService = checkoutService;
         this.deliveryService = deliveryService;
         this.stationRepository = stationRepository;
+        this.geoCodingService = geoCodingService;
     }
 
     @GetMapping(value = "/order/search/device/{lon1}/{lat1}/{lon2}/{lat2}/{weight}/{size}/{device}")
@@ -44,17 +47,21 @@ public class OrderController {
     }
 
     @GetMapping(value = "/order/generate")
-    public Map<String, Object> generateOrder(
-            @RequestParam(name = "sending_lat") double sendingLat,
-            @RequestParam(name = "sending_lon") double sendingLon,
-            @RequestParam(name = "receiving_lat") double receivingLat,
-            @RequestParam(name = "receiving_lon") double receivingLon) {
+    public Map<String, Object> generateOrder( @RequestParam("sending_address") String sendingAddress,
+                                              @RequestParam("receiving_address") String receivingAddress) {
 
-        Long stationId = dispatchService.getClosestStationId(sendingLon, sendingLat);
-        System.out.println(stationId);
+        double[] origin = geoCodingService.getLatLng(sendingAddress);
+        double[] destination = geoCodingService.getLatLng(receivingAddress);
+        double sendingLat = origin[0];
+        double sendingLon = origin[1];
+        double receivingLat = destination[0];
+        double receivingLon = destination[1];
+
+        Long stationId = dispatchService.getClosestStationId(sendingLat, sendingLon);
         Station station = stationRepository.findStationById(stationId);
         double stationLat = station.getLatitude();
         double stationLon = station.getLongitude();
+
         List<Long> pickUpTime = deliveryService.getPickUpTime(sendingLon, sendingLat, stationLon, stationLat);
         List<Long> deliveryTime = deliveryService.getDeliveryTime(sendingLon, sendingLat, receivingLon, receivingLat);
 
