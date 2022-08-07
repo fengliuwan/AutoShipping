@@ -55,6 +55,9 @@ public class Order implements Serializable {
 //        return device;
 //    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
     public Long getOrderId() {
         return id;
     }

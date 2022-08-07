@@ -59,8 +59,7 @@ public class OrderController {
             @RequestParam(name = "sending_lat") double sendingLat,
             @RequestParam(name = "sending_lon") double sendingLon,
             @RequestParam(name = "receiving_lat") double receivingLat,
-            @RequestParam(name = "receiving_lon") double receivingLon,
-            Principal principal) { // principal 在authentication之后存在用户线程中
+            @RequestParam(name = "receiving_lon") double receivingLon) {
 
         Long stationId = dispatchService.getClosestStationId(sendingLon, sendingLat);
         System.out.println(stationId);
@@ -77,7 +76,8 @@ public class OrderController {
     }
 
     @PostMapping("/order/{deviceType}")
-    public void addOrder(@RequestBody Order order, @PathVariable String deviceType) {
+    public void addOrder(@RequestBody Order order, @PathVariable String deviceType, Principal principal) {// principal 在authentication之后存在用户线程中
+        order.setUser(new User.Builder().setUsername(principal.getName()).build());
         checkoutService.placeOrder(order, deviceType);
     }
 

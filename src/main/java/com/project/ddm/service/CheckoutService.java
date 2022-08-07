@@ -5,6 +5,7 @@ import com.project.ddm.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.List;
@@ -47,7 +48,7 @@ public class CheckoutService {
 
         Long stationId = dispatchService.getClosestStationId(sendingLatLon[0], sendingLatLon[1]);
         List<Long> deviceIds = dispatchService.getAvailableDeviceIdsAtStation(stationId, deviceType);
-        // can have some logic to pick device to use, not implemented here
+        // can have some logic to pick device to use as extension
         Device device = dispatchService.getDeviceById(deviceIds.get(0));
         Station station = device.getStation();
 
