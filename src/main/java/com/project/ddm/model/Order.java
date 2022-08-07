@@ -1,5 +1,6 @@
 package com.project.ddm.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -27,11 +28,12 @@ public class Order implements Serializable {
 
     private String receivingAddress;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_name")
     private User user;
 
-    @OneToOne
+    @OneToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name = "device_id", referencedColumnName = "id")
     private Device device;
 
     public Order() {}
@@ -49,9 +51,10 @@ public class Order implements Serializable {
     public void setDevice(Device device) {
         this.device = device;
     }
-    public Device getDevice(){
-        return device;
-    }
+//    public Device getDevice(){
+//        return device;
+//    }
+
     public Long getOrderId() {
         return id;
     }

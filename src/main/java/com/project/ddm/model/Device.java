@@ -29,7 +29,7 @@ public class Device implements Serializable {
 
     private String deviceType;
 
-    @OneToOne
+    @OneToOne (mappedBy = "device")
     private Order order;
 
     public  Device(){}
@@ -39,7 +39,7 @@ public class Device implements Serializable {
         this.deliverDistance = builder.deliverDistance;
         this.station = builder.station;
         this.deviceType = builder.deviceType;
-        //this.order = builder.order;
+        this.order = builder.order;
     }
 
     public Long getId() {

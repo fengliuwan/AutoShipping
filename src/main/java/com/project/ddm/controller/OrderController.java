@@ -76,9 +76,9 @@ public class OrderController {
         return map;
     }
 
-    @PostMapping("/order")
-    public void addOrder(@RequestBody Order order) {
-        checkoutService.placeOrder(order);
+    @PostMapping("/order/{deviceType}")
+    public void addOrder(@RequestBody Order order, @PathVariable String deviceType) {
+        checkoutService.placeOrder(order, deviceType);
     }
 
 }

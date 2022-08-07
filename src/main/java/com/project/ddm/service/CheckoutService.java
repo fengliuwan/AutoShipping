@@ -19,6 +19,7 @@ public class CheckoutService {
     private OrderRepository orderRepository;
     private DeviceReserveDateRepository deviceReserveDateRepository;
     private DeliveryService deliveryService;
+    private GeoCodingService geoCodingService;
 
     @Autowired
     public CheckoutService(DispatchService dispatchService,
@@ -26,32 +27,36 @@ public class CheckoutService {
                            TrackRepository trackRepository,
                            OrderRepository orderRepository,
                            DeviceReserveDateRepository deviceReserveDateRepository,
-                           DeliveryService deliveryService) {
+                           DeliveryService deliveryService,
+                           GeoCodingService geoCodingService) {
         this.dispatchService = dispatchService;
         this.stationRepository = stationRepository;
         this.trackRepository = trackRepository;
         this.orderRepository = orderRepository;
         this.deviceReserveDateRepository = deviceReserveDateRepository;
         this.deliveryService = deliveryService;
+        this.geoCodingService = geoCodingService;
     }
 
-    public void placeOrder(Order order) {
-        String deviceType = order.getDevice().getDeviceType();
-        Station station = order.getDevice().getStation();
-        List<Long> deviceIds = dispatchService.getAvailableDeviceIdsAtStation(station.getStationId(), deviceType);
-        // can have some logic to pick device to use, not implemented here
-        Device device = dispatchService.getDeviceById(deviceIds.get(0));
-
+    public void placeOrder(Order order, String deviceType) {
         String sendingAddress = order.getSendingAddress();
         String receivingAddress = order.getReceivingAddress();
-        double[] sendingLatLon = new double[2];//geoEncoding(sendingAddress);
-        double[] receivingLatLon = new double[2];// geoEncoding(receivingAddress);
+
+        double[] sendingLatLon = geoCodingService.getLatLng(sendingAddress);
+        double[] receivingLatLon = geoCodingService.getLatLng(receivingAddress);
+
+        Long stationId = dispatchService.getClosestStationId(sendingLatLon[0], sendingLatLon[1]);
+        List<Long> deviceIds = dispatchService.getAvailableDeviceIdsAtStation(stationId, deviceType);
+        // can have some logic to pick device to use, not implemented here
+        Device device = dispatchService.getDeviceById(deviceIds.get(0));
+        Station station = device.getStation();
+
         List<Long> pickUpTimes = deliveryService.getPickUpTime(station.getLatitude(), station.getLongitude(), sendingLatLon[0], sendingLatLon[1]);
         List<Long> deliveryTimes = deliveryService.getDeliveryTime(receivingLatLon[0], receivingLatLon[1], sendingLatLon[0], sendingLatLon[1]);
         long orderFulfillTime = 0L;
-        if (device.getDeviceType().equals("ROLE_ROBOT")) {
+        if (device.getDeviceType().equals("ROBOT")) {
             orderFulfillTime = pickUpTimes.get(0) + deliveryTimes.get(0);
-        } else if (device.getDeviceType().equals("ROLE_DRONE")){
+        } else if (device.getDeviceType().equals("DRONE")){
             orderFulfillTime = pickUpTimes.get(1) + deliveryTimes.get(1);
         }
 
