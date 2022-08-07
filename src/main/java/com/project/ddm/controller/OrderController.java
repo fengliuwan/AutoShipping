@@ -8,10 +8,7 @@ import com.project.ddm.service.DispatchService;
 import com.project.ddm.service.CheckoutService;
 import com.project.ddm.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +19,7 @@ public class OrderController {
 
     private DispatchService dispatchService;
 
-    private CheckoutService checkout;
+    private CheckoutService checkoutService;
 
     private DeliveryService deliveryService;
 
@@ -30,9 +27,12 @@ public class OrderController {
 
 
     @Autowired
-    public OrderController(DispatchService dispatchService, CheckoutService checkout, DeliveryService deliveryService, StationRepository stationRepository) {
+    public OrderController(DispatchService dispatchService,
+                           CheckoutService checkoutService,
+                           DeliveryService deliveryService,
+                           StationRepository stationRepository) {
         this.dispatchService = dispatchService;
-        this.checkout = checkout;
+        this.checkoutService = checkoutService;
         this.deliveryService = deliveryService;
         this.stationRepository = stationRepository;
     }
@@ -49,7 +49,7 @@ public class OrderController {
 
     @GetMapping(value = "/order/search/device/{lon1}/{lat1}/{lon2}/{lat2}/{weight}/{size}/{device}")
     public double getCost(@PathVariable double lon1, @PathVariable double lat1, @PathVariable double lon2, @PathVariable double lat2, @PathVariable double weight, @PathVariable double size, @PathVariable String device) {
-        return checkout.getCost(weight, size, lon1, lat1, lon2, lat2, device);
+        return checkoutService.getCost(weight, size, lon1, lat1, lon2, lat2, device);
     }
 
 
@@ -72,5 +72,10 @@ public class OrderController {
         map.put("pick_up_time", pickUpTime);
         map.put("delivery_time", deliveryTime);
         return map;
+    }
+
+    @PostMapping("/order")
+    public void addOrder(@RequestBody Order order) {
+        //checkoutService.placeOrder(order);
     }
 }

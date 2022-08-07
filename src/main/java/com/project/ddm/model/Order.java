@@ -46,6 +46,15 @@ public class Order implements Serializable {
         this.user = builder.user;
     }
 
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
+    // having getter report error!!!
+//    public Device getDevice(){
+//        return device;
+//    }
+
     public Long getOrderId() {
         return id;
     }
