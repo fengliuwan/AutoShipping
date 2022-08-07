@@ -78,6 +78,7 @@ public class User implements Serializable {
 
         @JsonProperty("orders")
         private List<Order> orders;
+
         // field added and used by register/auth service
         @JsonProperty("enabled")
         private boolean enabled;

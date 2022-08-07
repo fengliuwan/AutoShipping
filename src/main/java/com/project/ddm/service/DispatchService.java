@@ -3,6 +3,7 @@ package com.project.ddm.service;
 import com.project.ddm.model.Device;
 import com.project.ddm.model.DeviceType;
 import com.project.ddm.model.Station;
+import com.project.ddm.repository.DeviceRepository;
 import com.project.ddm.repository.DeviceReserveDateRepository;
 import com.project.ddm.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,15 @@ public class DispatchService {
 
     private StationRepository stationRepository;
     private DeviceReserveDateRepository deviceReserveDateRepository;
+    private DeviceRepository deviceRepository;
 
     @Autowired
     public DispatchService(StationRepository stationRepository,
-                           DeviceReserveDateRepository deviceReserveDateRepository) {
+                           DeviceReserveDateRepository deviceReserveDateRepository,
+                            DeviceRepository deviceRepository) {
         this.stationRepository = stationRepository;
         this.deviceReserveDateRepository = deviceReserveDateRepository;
+        this.deviceRepository = deviceRepository;
     }
 
     /**
@@ -53,6 +57,9 @@ public class DispatchService {
         return bestId;
     }
 
+    public Device getDeviceById(Long id) {
+        return deviceRepository.findDeviceById(id);
+    }
     /**
      * @param lon delivery origin's longitude
      * @param lat delivery origin's latitude

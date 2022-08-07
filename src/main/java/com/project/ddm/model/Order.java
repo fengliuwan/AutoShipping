@@ -32,20 +32,27 @@ public class Order implements Serializable {
     private User user;
 
     @OneToOne
-    private Order order;
+    private Device device;
 
     public Order() {}
 
     private Order(Builder builder) {
-        this.id = builder.orderId;
+        this.id = builder.id;
         this.trackId = builder.trackId;
         this.weight = builder.weight;
         this.price = builder.price;
         this.sendingAddress = builder.sendingAddress;
         this.receivingAddress = builder.receivingAddress;
         this.user = builder.user;
+        this.device = builder.device;
     }
 
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+    public Device getDevice(){
+        return device;
+    }
     public Long getOrderId() {
         return id;
     }
@@ -72,8 +79,8 @@ public class Order implements Serializable {
 
     public static class Builder {
 
-        @JsonProperty("order_id")
-        private Long orderId;
+        @JsonProperty("id")
+        private Long id;
 
         @JsonProperty("track_id")
         private Long trackId;
@@ -90,11 +97,14 @@ public class Order implements Serializable {
         @JsonProperty("receiving_address")
         private String receivingAddress;
 
-        @JsonProperty
+        @JsonProperty("user")
         private User user;
 
-        public Builder setOrderId(Long orderId) {
-            this.orderId = orderId;
+        @JsonProperty("device")
+        private Device device;
+
+        public Builder setId(Long id) {
+            this.id = id;
             return this;
         }
 
@@ -120,6 +130,10 @@ public class Order implements Serializable {
 
         public Builder setReceivingAddress(String receivingAddress) {
             this.receivingAddress = receivingAddress;
+            return this;
+        }
+        public Builder setDevice(Device device) {
+            this.device = device;
             return this;
         }
 

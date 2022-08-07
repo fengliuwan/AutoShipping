@@ -1,8 +1,6 @@
 package com.project.ddm.controller;
 
-import com.project.ddm.exception.UserAlreadyExistException;
-import com.project.ddm.exception.UserNotExistException;
-import com.project.ddm.exception.OrderNotExistException;
+import com.project.ddm.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,5 +23,15 @@ public class CustomExceptionHandler {
     @ExceptionHandler(OrderNotExistException.class)
     public final ResponseEntity<String> handleOrderNotExistException(Exception ex, WebRequest request) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidAddressException.class)
+    public final ResponseEntity<String> handleInvalidAddressExceptions(Exception ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(GeoCodingException.class)
+    public final ResponseEntity<String> handleGeoCodingExceptions(Exception ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

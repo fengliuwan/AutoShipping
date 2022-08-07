@@ -66,6 +66,13 @@
             <version>0.9.1</version>
         </dependency>
 
+        <!-- dependency for google maps api geo location and geo encoding -->
+        <dependency>
+            <groupId>com.google.maps</groupId>
+            <artifactId>google-maps-services</artifactId>
+            <version>0.18.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
