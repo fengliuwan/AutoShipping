@@ -4,6 +4,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "station")
 public class Station implements Serializable {
@@ -17,7 +19,7 @@ public class Station implements Serializable {
     private double latitude;
 
     @OneToMany (mappedBy = "station", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private List<Device> devices;
+    private Set<Device> devices;
 
     public long getStationId() {
         return id;
@@ -31,7 +33,7 @@ public class Station implements Serializable {
         return latitude;
     }
 
-    public List<Device> getDevices() {
+    public Set<Device> getDevices() {
         return devices;
     }
 
@@ -47,7 +49,7 @@ public class Station implements Serializable {
         this.latitude = latitude;
     }
 
-    public void setDevices(List<Device> devices) {
+    public void setDevices(Set<Device> devices) {
         this.devices = devices;
     }
 }

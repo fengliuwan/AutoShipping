@@ -5,6 +5,7 @@ import com.project.ddm.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.List;
@@ -47,8 +48,8 @@ public class CheckoutService {
 
         Long stationId = dispatchService.getClosestStationId(sendingLatLon[0], sendingLatLon[1]);
         List<Long> deviceIds = dispatchService.getAvailableDeviceIdsAtStation(stationId, deviceType);
-        // can have some logic to pick device to use, not implemented here
-        Device device = dispatchService.getDeviceById(deviceIds.get(0));
+        // can have some logic to pick device to use as extension
+        Device device = dispatchService.getDeviceById(deviceIds.get((int)Math.random() * deviceIds.size()));
         Station station = device.getStation();
 
         List<Long> pickUpTimes = deliveryService.getPickUpTime(station.getLatitude(), station.getLongitude(), sendingLatLon[0], sendingLatLon[1]);
@@ -64,11 +65,11 @@ public class CheckoutService {
         Time reserveTime = Time.valueOf(deliveryTime);
 
         order.setDevice(device);
-        orderRepository.save(order);
 
         DeviceReserveDateKey deviceReserveDateKey = new DeviceReserveDateKey(device.getId(), reserveTime);
         DeviceReserveDate deviceReserveDate = new DeviceReserveDate(deviceReserveDateKey, device);
         deviceReserveDateRepository.save(deviceReserveDate);
+        orderRepository.save(order);
     }
 
 
