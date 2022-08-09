@@ -121,11 +121,11 @@ public class OrderService {
         return Math.abs((lat1- lat2) * jl_jd);
     }
 
-    public Long generateTrackingNumber() {
-        Long trackId = Math.abs(new Random().nextLong());
+    public int generateTrackingNumber() {
+        int trackId = Math.abs(new Random(100).nextInt());
 
         while (trackRepository.findOrderByTrackId(trackId) != null) {
-            trackId = Math.abs(new Random().nextLong());
+            trackId = Math.abs(new Random().nextInt() / 10000);
         }
 
         return trackId;
@@ -167,6 +167,10 @@ public class OrderService {
 
         double price = getCost(weight, 10, sendLon, sendLat, receiveLon, receiveLat, deviceType);
         order.setPrice(price);
+
+        // Get tracking number
+        int trackNum = generateTrackingNumber();
+        order.setTrackId(trackNum);
 
         DeviceReserveDateKey deviceReserveDateKey = new DeviceReserveDateKey(device.getId(), reserveTime);
         DeviceReserveDate deviceReserveDate = new DeviceReserveDate(deviceReserveDateKey, device);

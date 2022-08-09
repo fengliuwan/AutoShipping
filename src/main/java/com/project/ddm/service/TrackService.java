@@ -16,7 +16,7 @@ public class TrackService {
         this.trackRepository = trackRepository;
     }
 
-    public Order findByTrackId(Long trackId) throws OrderNotExistException {
+    public Order findByTrackId(int trackId) throws OrderNotExistException {
         Order order = trackRepository.findOrderByTrackId(trackId);
         if (order == null) {
             throw new OrderNotExistException("The order doesn't exist. Please enter correct tracking number.");

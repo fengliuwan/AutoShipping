@@ -18,7 +18,7 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long trackId;
+    private int trackId;
 
     private Double weight;
 
@@ -59,8 +59,12 @@ public class Order implements Serializable {
         return id;
     }
 
-    public Long getTrackId() {
+    public int getTrackId() {
         return trackId;
+    }
+
+    public void setTrackId(int trackId) {
+        this.trackId = trackId;
     }
 
     public Double getWeight() {
@@ -89,7 +93,7 @@ public class Order implements Serializable {
         private Long id;
 
         @JsonProperty("track_id")
-        private Long trackId;
+        private int trackId;
 
         @JsonProperty("weight")
         private Double weight;
@@ -111,7 +115,7 @@ public class Order implements Serializable {
             return this;
         }
 
-        public Builder setTrackId(Long trackId) {
+        public Builder setTrackId(int trackId) {
             this.trackId = trackId;
             return this;
         }
