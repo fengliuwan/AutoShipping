@@ -18,7 +18,7 @@ public class TrackOrderController {
     }
 
     @GetMapping(value = "/track/{trackId}")
-    public Order getOrder(@PathVariable Long trackId) {
+    public Order getOrder(@PathVariable int trackId) {
         return trackService.findByTrackId(trackId);
     }
 

@@ -29,7 +29,7 @@ public class Device implements Serializable {
 
     private String deviceType;
 
-    @OneToOne (mappedBy = "device")
+    @OneToOne (mappedBy = "device", cascade = CascadeType.ALL, orphanRemoval = true)
     private Order order;
 
     public  Device(){}

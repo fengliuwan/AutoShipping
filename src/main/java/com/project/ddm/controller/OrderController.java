@@ -1,11 +1,12 @@
 package com.project.ddm.controller;
+
 import java.security.Principal;
 
 import com.project.ddm.model.*;
 import com.project.ddm.repository.StationRepository;
 import com.project.ddm.service.DeliveryService;
 import com.project.ddm.service.DispatchService;
-import com.project.ddm.service.CheckoutService;
+import com.project.ddm.service.OrderService;
 import com.project.ddm.service.GeoCodingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class OrderController {
 
     private DispatchService dispatchService;
 
-    private CheckoutService checkoutService;
+    private OrderService orderService;
 
     private DeliveryService deliveryService;
 
@@ -30,12 +31,12 @@ public class OrderController {
 
     @Autowired
     public OrderController(DispatchService dispatchService,
-                           CheckoutService checkoutService,
+                           OrderService orderService,
                            DeliveryService deliveryService,
                            StationRepository stationRepository,
                            GeoCodingService geoCodingService) {
         this.dispatchService = dispatchService;
-        this.checkoutService = checkoutService;
+        this.orderService = orderService;
         this.deliveryService = deliveryService;
         this.stationRepository = stationRepository;
         this.geoCodingService = geoCodingService;
@@ -43,7 +44,7 @@ public class OrderController {
 
     @GetMapping(value = "/order/search/device/{lon1}/{lat1}/{lon2}/{lat2}/{weight}/{size}/{device}")
     public double getCost(@PathVariable double lon1, @PathVariable double lat1, @PathVariable double lon2, @PathVariable double lat2, @PathVariable double weight, @PathVariable double size, @PathVariable String device) {
-        return checkoutService.getCost(weight, size, lon1, lat1, lon2, lat2, device);
+        return orderService.getCost(weight, size, lon1, lat1, lon2, lat2, device);
     }
 
     @GetMapping(value = "/order/generate")
@@ -62,8 +63,8 @@ public class OrderController {
         double stationLat = station.getLatitude();
         double stationLon = station.getLongitude();
 
-        List<Long> pickUpTime = deliveryService.getPickUpTime(sendingLon, sendingLat, stationLon, stationLat);
-        List<Long> deliveryTime = deliveryService.getDeliveryTime(sendingLon, sendingLat, receivingLon, receivingLat);
+        List<Long> pickUpTime = orderService.getPickUpTime(sendingLon, sendingLat, stationLon, stationLat);
+        List<Long> deliveryTime = orderService.getDeliveryTime(sendingLon, sendingLat, receivingLon, receivingLat);
 
         Map<String, Object> map = new HashMap<>(2);
         map.put("pick_up_time", pickUpTime);
@@ -74,7 +75,7 @@ public class OrderController {
     @PostMapping("/order/{deviceType}")
     public void addOrder(@RequestBody Order order, @PathVariable String deviceType, Principal principal) {// principal 在authentication之后存在用户线程中
         order.setUser(new User.Builder().setUsername(principal.getName()).build());
-        checkoutService.placeOrder(order, deviceType);
+        orderService.placeOrder(order, deviceType);
     }
 
 }

@@ -18,7 +18,7 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long trackId;
+    private int trackId;
 
     private Double weight;
 
@@ -33,7 +33,6 @@ public class Order implements Serializable {
     private User user;
 
     @OneToOne (cascade = CascadeType.ALL)
-    //@JoinColumn(name = "device_id", referencedColumnName = "id")
     private Device device;
 
     public Order() {}
@@ -51,19 +50,21 @@ public class Order implements Serializable {
     public void setDevice(Device device) {
         this.device = device;
     }
-//    public Device getDevice(){
-//        return device;
-//    }
 
     public void setUser(User user) {
         this.user = user;
     }
+
     public Long getOrderId() {
         return id;
     }
 
-    public Long getTrackId() {
+    public int getTrackId() {
         return trackId;
+    }
+
+    public void setTrackId(int trackId) {
+        this.trackId = trackId;
     }
 
     public Double getWeight() {
@@ -74,6 +75,10 @@ public class Order implements Serializable {
         return price;
     }
 
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public String getSendingAddress() {
         return sendingAddress;
     }
@@ -82,13 +87,14 @@ public class Order implements Serializable {
         return receivingAddress;
     }
 
+
     public static class Builder {
 
         @JsonProperty("id")
         private Long id;
 
         @JsonProperty("track_id")
-        private Long trackId;
+        private int trackId;
 
         @JsonProperty("weight")
         private Double weight;
@@ -105,13 +111,12 @@ public class Order implements Serializable {
         @JsonProperty("user")
         private User user;
 
-
         public Builder setId(Long id) {
             this.id = id;
             return this;
         }
 
-        public Builder setTrackId(Long trackId) {
+        public Builder setTrackId(int trackId) {
             this.trackId = trackId;
             return this;
         }
