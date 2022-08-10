@@ -11,6 +11,7 @@ import com.project.ddm.service.GeoCodingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +49,10 @@ public class OrderController {
     }
 
     @GetMapping(value = "/order/generate")
-    public Map<String, Object> generateOrder( @RequestParam("sending_address") String sendingAddress,
-                                              @RequestParam("receiving_address") String receivingAddress) {
+    public Map<String, Object> generateOrder(@RequestParam("sending_address") String sendingAddress,
+                                             @RequestParam("receiving_address") String receivingAddress,
+                                             @RequestParam("weight") double weight,
+                                             Order order) {
 
         double[] origin = geoCodingService.getLatLng(sendingAddress);
         double[] destination = geoCodingService.getLatLng(receivingAddress);
@@ -65,10 +68,14 @@ public class OrderController {
 
         List<Long> pickUpTime = orderService.getPickUpTime(sendingLon, sendingLat, stationLon, stationLat);
         List<Long> deliveryTime = orderService.getDeliveryTime(sendingLon, sendingLat, receivingLon, receivingLat);
+        List<Double> cost = new ArrayList<>();
+        cost.add(orderService.getCost(weight, 10, sendingLon, sendingLat, receivingLon, receivingLat, "ROBOT"));
+        cost.add(orderService.getCost(weight, 10, sendingLon, sendingLat, receivingLon, receivingLat, "DRONE"));
 
         Map<String, Object> map = new HashMap<>(2);
         map.put("pick_up_time", pickUpTime);
         map.put("delivery_time", deliveryTime);
+        map.put("cost", cost);
         return map;
     }
 
