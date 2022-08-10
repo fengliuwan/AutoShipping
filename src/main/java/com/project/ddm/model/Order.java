@@ -75,6 +75,10 @@ public class Order implements Serializable {
         return price;
     }
 
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public String getSendingAddress() {
         return sendingAddress;
     }
@@ -83,9 +87,6 @@ public class Order implements Serializable {
         return receivingAddress;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 
     public static class Builder {
 
