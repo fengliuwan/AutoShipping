@@ -21,6 +21,7 @@ public class OrderService {
     private DeviceReserveDateRepository deviceReserveDateRepository;
     private DeliveryService deliveryService;
     private GeoCodingService geoCodingService;
+    private final String BEING_PICKED_UP = "Package is being picked up";
 
     @Autowired
     public OrderService(DispatchService dispatchService,
@@ -166,6 +167,7 @@ public class OrderService {
         // Get tracking number
         int trackNum = generateTrackingNumber();
         order.setTrackId(trackNum);
+        order.setStatus(BEING_PICKED_UP);
 
         DeviceReserveDateKey deviceReserveDateKey = new DeviceReserveDateKey(device.getId(), reserveTime);
         DeviceReserveDate deviceReserveDate = new DeviceReserveDate(deviceReserveDateKey, device);

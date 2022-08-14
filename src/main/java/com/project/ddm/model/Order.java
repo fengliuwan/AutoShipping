@@ -28,6 +28,8 @@ public class Order implements Serializable {
 
     private String receivingAddress;
 
+    private String status;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_name")
     private User user;
@@ -45,6 +47,7 @@ public class Order implements Serializable {
         this.sendingAddress = builder.sendingAddress;
         this.receivingAddress = builder.receivingAddress;
         this.user = builder.user;
+        this.status = builder.status;
     }
 
     public void setDevice(Device device) {
@@ -61,6 +64,14 @@ public class Order implements Serializable {
 
     public int getTrackId() {
         return trackId;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return this.status;
     }
 
     public void setTrackId(int trackId) {
@@ -111,8 +122,16 @@ public class Order implements Serializable {
         @JsonProperty("user")
         private User user;
 
+        @JsonProperty("status")
+        private String status;
+
         public Builder setId(Long id) {
             this.id = id;
+            return this;
+        }
+
+        public Builder setStatus(String status) {
+            this.status = status;
             return this;
         }
 
